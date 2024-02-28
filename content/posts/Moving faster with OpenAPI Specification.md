@@ -1,5 +1,6 @@
 ---
 title: Moving faster with OpenAPI Specification
+date: 2022-01-07
 ---
 
 ## Moving faster with OpenApi Specification

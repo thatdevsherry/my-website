@@ -1,5 +1,6 @@
 ---
 title: Accessing root shell of my home router
+date: 2021-03-21
 ---
 ## Accessing root shell of my home router
 

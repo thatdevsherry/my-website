@@ -1,5 +1,6 @@
 ---
 title: Diving into DevOps
+date: 2022-04-20
 ---
 
 ## Diving into DevOps

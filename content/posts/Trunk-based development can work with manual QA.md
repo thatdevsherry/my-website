@@ -1,5 +1,6 @@
 ---
 title: Trunk-based development can work with manual QA
+date: 2022-07-19
 ---
 
 ## trunk-based development can work with manual QA

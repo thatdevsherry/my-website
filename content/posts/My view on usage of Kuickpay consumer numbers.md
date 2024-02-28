@@ -1,5 +1,6 @@
 ---
 title: My view on usage of Kuickpay consumer numbers
+date: 2022-02-23
 ---
 
 ## My view on usage of Kuickpay Consumer Numbers

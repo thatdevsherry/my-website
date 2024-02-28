@@ -1,5 +1,6 @@
 ---
 title: Reducing exceptions in TypeScript
+date: 2022-12-01
 ---
 
 # Reducing exceptions in TypeScript

@@ -1,5 +1,6 @@
 ---
 title: My experience with rev-matching technique
+date: 2023-04-15
 ---
 
 I was always interested in driving cars as a kid. This interest made it easy for me to learn to drive when I grew up and got the chance.

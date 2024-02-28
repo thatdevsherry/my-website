@@ -1,5 +1,6 @@
 ---
 title: Breaking down a loan
+date: 2022-07-02
 ---
 
 ## Breaking down a loan

@@ -1,5 +1,6 @@
 ---
 title: Compromising on code quality
+date: 2021-11-12
 ---
 
 ## Compromising on Code Quality

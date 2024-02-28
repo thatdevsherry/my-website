@@ -1,5 +1,6 @@
 ---
 title: TypeScript, a gentle intro
+date: 2022-12-01
 ---
 
 # TypeScript, a gentle intro

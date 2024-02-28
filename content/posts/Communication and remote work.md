@@ -1,5 +1,6 @@
 ---
 title: Communication and remote work
+date: 2022-01-05
 ---
 
 ## Communication and Remote work

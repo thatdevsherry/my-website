@@ -1,5 +1,6 @@
 ---
 title: My developer productivity with Agile
+date: 2021-09-28
 ---
 
 ## My Developer Productivity with Agile
