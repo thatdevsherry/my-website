@@ -147,6 +147,91 @@ Our second byte as FU header is:
 +---------------+
 ```
 
-Since it is the first fragment of FU-A, the start bit is `1`, and the NAL payload type is `00111`.
+**Since it is the first fragment of FU-A, the start bit is `1`, and the NAL payload type is `00111`, which in decimal is `7`.**
 
+The NAL unit type of [`7` is for **SPS**](NAL%20unit%20type%20code).
+
+Now we know the following:
+- The packet is a FU-A packet
+- The FU-A packet has the header of SPS, meaning the data after FU header is supposed to be entirely for SPS
+
+Let's start reading the packet further.
+
+## Reading next bytes
+
+### [Emulation Prevention Bytes (EPBs)](Emulation%20Prevention)
+There are emulation prevention bytes (EPBs) at byte `0x12` and `0x17`.
+
+### [Start code](Annex%20B)
+There is a start code at `0x27` till `0x2a` i.e. `0x00_00_00_01`.
+
+### Next NALU (PPS header & data)
+At `0x2b`, we get the header of next NALU `0x28`, or `00101000`, where **type** of NALU is `01000`, [which is `8` i.e. `PPS`](NAL%20unit%20type%20code). Subsequent bytes are PPS data.
+
+### [Start code](Annex%20B)
+There is a start code at `0x2f` till `0x32` i.e. `0x00_00_00_01`.
+
+### Next NALU header (IDR header & data)
+At `0x33` is next NALU header `25`, or `00100101`, where type of NALU is `00101`, [which is `5` for IDR](NAL%20unit%20type%20code). Subsequent bytes are IDR data.
+## How FU-As should be
+
+Notice that the FU-A packets are fragmented. And remember when I quoted the RFC which explicitly said that:
+> Fragmentation is defined only for a single NAL unit and not for any aggregation packets.
+
+This means that when we have received a FU-A packet i.e. we receive all fragmented packets for that FU-A, starting from the first packet with **start bit** set to `1`, until the final packet with **end bit** set to `1`, will be of a **single NALU**.
+
+```
+FU-A example
+
+[3c 87 ...] # first fragmented packet of FU-A
+[3c 07 ...], [3c 07 ..], .. , [3c 07] # middle fragmented packets
+[3c 47 ...] # last fragmented packet of FU-A
+```
+
+The payload of the entire FU-A packet should be of a **single NALU**, which is made clear by the last digit in second byte `7`, meaning these packets were for `SPS`.
+
+## What our FU-A is
+
+So we know what the payload of the FU-A should be, i.e. data for `SPS`.
+
+**However**
+
+We've received an **Annex B** stream in the FU-A packet, which contains `SPS`, `PPS` and `IDR` slice.
+
+Normally, IDR slices are big so they're commonly sent over FU-A packets, but my camera is bundling up `SPS` & `PPS` with the `IDR slice` into an **Annex B** stream, and sending **that** through FU-A, which acc. to the RFC, ain't what we was supposed to do dawg.
+
+This is essentially what we're receiving.
+```
+[
+3c           # FU-A
+87           # start of FU-A for SPS
+..           # SPS data
+(start code) # end of last NALU
+28           # single NALU for PPS
+..           # PPS data
+(start code) # end of last NALU
+25           # single NALU for IDR
+..           # IDR data
+]
+
+[
+3c           # FU-A
+07           # middle packets of FU-A for SPS
+..           # IDR data
+]
+
+[
+3c           # FU-A
+47           # end of FU-A for SPS
+..           # IDR data
+]
+```
+
+Funny how the FU-A fragments after the first one still say that they'll have `SPS`, but they instead have `IDR slice` since that's the last NALU in the Annex B stream.
+
+## Conclusion
+
+The camera is not conforming to the RFC, which is why `retina` isn't able to work. I'll need to come up with a solution for parsing the Annex B stream in FU-A packets so `retina` works with my camera.
+
+**Spoiler alert:** I did make a PR before but the code didn't feel good, which is why I'm gonna attempt doing it again.
 # _**To be continued**_
