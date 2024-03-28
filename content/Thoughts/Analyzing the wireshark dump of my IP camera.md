@@ -56,7 +56,8 @@ and also,
 
 The first byte of the RTP payload will tell us what type of payload structure it is. Read [Section 5.2](https://datatracker.ietf.org/doc/html/rfc6184#section-5.2) to understand the three types of payload structures.
 ## RTP payload
-Here's the first 50 bytes
+Here's the first few bytes
+
 ```
 0000   3c 87 4d 00 1f e7 40 28 02 dd 80 a5 05 05 05 f0
 0010   00 00 03 00 10 00 00 03 02 8b 01 00 02 dc 68 00
@@ -234,4 +235,5 @@ Funny how the FU-A fragments after the first one still say that they'll have `SP
 The camera is not conforming to the RFC, which is why `retina` isn't able to work. I'll need to come up with a solution for parsing the Annex B stream in FU-A packets so `retina` works with my camera.
 
 **Spoiler alert:** I did make a PR before but the code didn't feel good, which is why I'm gonna attempt doing it again.
-# _**To be continued**_
+
+**Update:** Opened up a [PR](https://github.com/scottlamb/retina/pull/100) for adding support for my camera.
